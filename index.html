@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jogo da Forca - atividade de Front-End, professor Augusto Baia">
+  <title>Jogo da Forca</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <!-- botão de som (aparece em todas as telas) -->
+  <button id="btn-som" class="btn-som" aria-label="Ativar ou desativar o som">🔊 Som: ligado</button>
+
+  <!-- ===== TELA INICIAL ===== -->
+  <main id="tela-inicio" class="tela ativa">
+    <section class="cartao menu">
+      <p class="selo">🎓 Front-End</p>
+      <h1>JOGO DA <span>FORCA</span></h1>
+      <p class="descricao">
+        Descubra a palavra secreta escolhendo uma letra de cada vez.
+        Cada letra errada desenha uma parte da forca. Se o desenho
+        terminar antes de você acertar a palavra, é fim de jogo!
+        Você pode clicar nas letras ou usar o teclado do computador.
+      </p>
+
+      <div class="opcoes">
+        <label for="select-categoria">Categoria</label>
+        <select id="select-categoria">
+          <option value="todas">🎲 Todas (aleatória)</option>
+          <option value="Tecnologia">Tecnologia</option>
+          <option value="Programação">Programação</option>
+          <option value="Informática">Informática</option>
+          <option value="Jogos">Jogos</option>
+          <option value="Conhecimentos gerais">Conhecimentos gerais</option>
+          <option value="Animais">Animais</option>
+          <option value="Frutas">Frutas</option>
+          <option value="Países">Países</option>
+          <option value="Profissões">Profissões</option>
+        </select>
+
+        <label>Dificuldade</label>
+        <div class="niveis">
+          <button class="nivel" data-nivel="facil">Fácil</button>
+          <button class="nivel ativo" data-nivel="medio">Médio</button>
+          <button class="nivel" data-nivel="dificil">Difícil</button>
+        </div>
+      </div>
+
+      <button id="btn-iniciar" class="btn-principal">▶ INICIAR JOGO</button>
+      <button id="btn-regras" class="btn-secundario btn-regras">📖 REGRAS DO JOGO</button>
+      <button id="btn-zerar" class="btn-link">Zerar placar salvo</button>
+
+      <footer class="rodape">
+        <p>Disciplina: <strong>Front-End</strong></p>
+        <p>Professor: <strong>Augusto Baia</strong></p>
+        <p>Aluno: <strong>Arthur Vitor Freitas Lopes</strong> | Matrícula: <strong>04209464</strong></p>
+        <p>Curso: <strong>ADS</strong> | <strong>UNAMA</strong></p>
+      </footer>
+    </section>
+  </main>
+
+  <!-- ===== TELA DO JOGO ===== -->
+  <main id="tela-jogo" class="tela">
+    <section class="painel">
+
+      <div class="placar">
+        <div><span>Pontos</span><strong id="pontos">0</strong></div>
+        <div><span>Vitórias</span><strong id="vitorias">0</strong></div>
+        <div><span>Derrotas</span><strong id="derrotas">0</strong></div>
+        <div><span>🏆 Recorde</span><strong id="recorde">0</strong></div>
+      </div>
+
+      <div class="area-jogo">
+        <div class="cartao lado-forca">
+          <svg id="forca" viewBox="0 0 200 240" aria-label="Desenho da forca">
+            <line class="parte base"  pathLength="1" x1="20"  y1="230" x2="180" y2="230"/>
+            <line class="parte poste" pathLength="1" x1="60"  y1="230" x2="60"  y2="20"/>
+            <line class="parte viga"  pathLength="1" x1="60"  y1="20"  x2="140" y2="20"/>
+            <line class="parte corda" pathLength="1" x1="140" y1="20"  x2="140" y2="50"/>
+            <circle class="parte corpo" pathLength="1" cx="140" cy="70" r="20"/>
+            <line class="parte corpo" pathLength="1" x1="140" y1="90"  x2="140" y2="150"/>
+            <line class="parte corpo" pathLength="1" x1="140" y1="105" x2="115" y2="132"/>
+            <line class="parte corpo" pathLength="1" x1="140" y1="105" x2="165" y2="132"/>
+            <line class="parte corpo" pathLength="1" x1="140" y1="150" x2="120" y2="192"/>
+            <line class="parte corpo" pathLength="1" x1="140" y1="150" x2="160" y2="192"/>
+          </svg>
+          <p class="info">❤️ Tentativas restantes: <strong id="tentativas">0</strong></p>
+        </div>
+
+        <div class="cartao lado-jogo">
+          <div class="topo-jogo">
+            <span class="etiqueta">⚡ Nível: <b id="nivel">-</b></span>
+          </div>
+
+          <p class="tema">📚 Tema: <strong id="categoria">-</strong></p>
+
+          <div id="palavra" class="palavra" aria-live="polite"></div>
+          <p id="mensagem" class="mensagem"></p>
+          <p class="info">Letras erradas: <strong id="erradas">-</strong></p>
+
+          <div id="teclado" class="teclado"></div>
+
+          <div class="botoes-jogo">
+            <button id="btn-menu" class="btn-secundario">⬅ Voltar ao menu</button>
+            <button id="btn-regras-jogo" class="btn-secundario">📖 Regras</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== JANELA DE FIM DE PARTIDA ===== -->
+  <div id="modal" class="modal">
+    <div class="modal-caixa">
+      <h2 id="modal-titulo"></h2>
+      <p id="modal-texto"></p>
+      <p class="modal-palavra" id="modal-palavra"></p>
+      <p id="modal-pontos" class="modal-pontos"></p>
+      <div class="modal-botoes">
+        <button id="btn-novamente" class="btn-principal">🔁 JOGAR NOVAMENTE</button>
+        <button id="btn-voltar" class="btn-secundario">VOLTAR AO MENU</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== JANELA DE REGRAS ===== -->
+  <div id="modal-regras" class="modal">
+    <div class="modal-caixa regras-caixa">
+      <h2>📖 Regras do Jogo da Forca</h2>
+      <ol>
+        <li>O jogo sorteia uma <strong>palavra secreta</strong> e mostra o <strong>tema</strong> dela. Cada traço na tela é uma letra.</li>
+        <li>Escolha <strong>uma letra por vez</strong>, clicando no teclado da tela ou digitando no teclado do computador.</li>
+        <li>Se a letra existir na palavra, ela aparece em <strong>todas</strong> as posições onde estiver.</li>
+        <li>Se a letra não existir, é um <strong>erro</strong> e uma parte do desenho da forca é feita.</li>
+        <li>Não é permitido repetir uma letra que já foi escolhida.</li>
+        <li><strong>Você vence</strong> se descobrir a palavra antes de o desenho terminar.</li>
+        <li><strong>Você perde</strong> se as tentativas acabarem. A palavra certa é mostrada no final.</li>
+        <li>As tentativas dependem do nível: Fácil tem 10, Médio tem 8 e Difícil tem 6.</li>
+        <li>Acentos e cedilha não precisam ser digitados. Escolher o <strong>A</strong> vale para A, Á, Ã e Â, por exemplo.</li>
+        <li>Cada vitória dá pontos. Quanto mais tentativas sobrarem e mais difícil o nível, mais pontos. O recorde fica salvo no navegador.</li>
+      </ol>
+      <button id="btn-fechar-regras" class="btn-principal">ENTENDI</button>
+    </div>
+  </div>
+
+</body>
+</html>

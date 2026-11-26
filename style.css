@@ -1,0 +1,356 @@
+/* ===== Jogo da Forca - estilos ===== */
+
+:root {
+  --fundo1: #0f0c29;
+  --fundo2: #302b63;
+  --fundo3: #24243e;
+  --roxo: #7c5cff;
+  --azul: #00d4ff;
+  --verde: #22c55e;
+  --vermelho: #ef4444;
+  --texto: #f1f1f8;
+  --texto-suave: #a9a9c8;
+  --vidro: rgba(255, 255, 255, 0.07);
+  --borda: rgba(255, 255, 255, 0.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  color: var(--texto);
+  background: linear-gradient(135deg, var(--fundo1), var(--fundo2), var(--fundo3));
+  background-attachment: fixed;
+}
+
+button, select { font-family: inherit; }
+
+/* ----- telas ----- */
+.tela {
+  display: none;
+  min-height: 100vh;
+  padding: 70px 16px 24px;
+  align-items: center;
+  justify-content: center;
+}
+.tela.ativa { display: flex; animation: entrar 0.5s ease; }
+
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.cartao {
+  background: var(--vidro);
+  border: 1px solid var(--borda);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+  padding: 24px;
+}
+
+/* ----- botão de som ----- */
+.btn-som {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--borda);
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--texto);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: 0.2s;
+}
+.btn-som:hover { background: rgba(124, 92, 255, 0.5); }
+
+/* ----- menu inicial ----- */
+.menu {
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+}
+.selo {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 20px;
+  background: rgba(124, 92, 255, 0.25);
+  color: var(--azul);
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+}
+.menu h1 {
+  font-size: clamp(2rem, 8vw, 3rem);
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+.menu h1 span {
+  background: linear-gradient(90deg, var(--roxo), var(--azul));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.descricao {
+  color: var(--texto-suave);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.opcoes { text-align: left; margin-bottom: 22px; }
+.opcoes label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  margin: 12px 0 6px;
+}
+select {
+  width: 100%;
+  padding: 11px;
+  border-radius: 10px;
+  border: 1px solid var(--borda);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--texto);
+  font-size: 1rem;
+}
+select option { background: #1b1840; }
+
+.niveis { display: flex; gap: 8px; }
+.nivel {
+  flex: 1;
+  padding: 11px 6px;
+  border-radius: 10px;
+  border: 1px solid var(--borda);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--texto);
+  cursor: pointer;
+  transition: 0.2s;
+}
+.nivel:hover { transform: translateY(-2px); border-color: var(--azul); }
+.nivel.ativo {
+  background: linear-gradient(135deg, var(--roxo), var(--azul));
+  border-color: transparent;
+  font-weight: bold;
+}
+
+/* ----- botões ----- */
+.btn-principal, .btn-secundario {
+  padding: 14px 22px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.25s;
+  color: #fff;
+}
+.btn-principal {
+  width: 100%;
+  background: linear-gradient(135deg, var(--roxo), var(--azul));
+  box-shadow: 0 6px 20px rgba(124, 92, 255, 0.45);
+}
+.btn-principal:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 28px rgba(0, 212, 255, 0.4); }
+.btn-principal:active { transform: scale(0.97); }
+.btn-secundario {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--borda);
+}
+.btn-secundario:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+.btn-link {
+  margin-top: 12px;
+  background: none;
+  border: none;
+  color: var(--texto-suave);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.btn-link:hover { color: var(--vermelho); }
+
+.rodape {
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 1px solid var(--borda);
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  line-height: 1.6;
+}
+.rodape strong { color: var(--texto); }
+
+/* ----- tela do jogo ----- */
+.painel { width: 100%; max-width: 980px; }
+
+.placar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.placar div {
+  background: var(--vidro);
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  padding: 10px;
+  text-align: center;
+}
+.placar span { display: block; font-size: 0.75rem; color: var(--texto-suave); }
+.placar strong { font-size: 1.4rem; color: var(--azul); }
+
+.area-jogo { display: grid; grid-template-columns: 1fr 1.6fr; gap: 14px; }
+
+.lado-forca { text-align: center; }
+#forca { width: 100%; max-width: 260px; }
+
+.parte {
+  fill: none;
+  stroke: #e8e8ff;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.5s ease;
+}
+.parte.visivel { stroke-dashoffset: 0; }
+.parte.corpo.visivel { stroke: var(--azul); }
+
+#forca.tremer { animation: tremer 0.4s; }
+@keyframes tremer {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+.info { margin-top: 10px; color: var(--texto-suave); font-size: 0.95rem; }
+.info strong { color: var(--texto); }
+
+.topo-jogo { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.etiqueta {
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(124, 92, 255, 0.22);
+  font-size: 0.9rem;
+}
+
+/* tema da palavra, em destaque para ajudar o jogador */
+.tema {
+  margin-top: 18px;
+  text-align: center;
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+  color: var(--texto-suave);
+}
+.tema strong {
+  color: var(--azul);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.palavra {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 24px 0 12px;
+}
+.letra {
+  width: clamp(26px, 6vw, 42px);
+  height: clamp(36px, 8vw, 54px);
+  border-bottom: 4px solid var(--roxo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.3rem, 5vw, 2rem);
+  font-weight: bold;
+}
+.letra.pop { animation: pop 0.4s; color: var(--azul); }
+.letra.revelada { color: var(--vermelho); border-color: var(--vermelho); }
+@keyframes pop {
+  0% { transform: scale(0.3); }
+  70% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.palavra.vitoria .letra { color: var(--verde); border-color: var(--verde); animation: pulsar 0.8s 2; }
+@keyframes pulsar { 50% { transform: translateY(-8px); } }
+
+.mensagem { text-align: center; min-height: 24px; color: var(--azul); font-style: italic; }
+.lado-jogo .info { text-align: center; }
+
+.teclado {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(42px, 1fr));
+  gap: 7px;
+  margin: 18px 0;
+}
+.tecla {
+  padding: 11px 0;
+  border-radius: 10px;
+  border: 1px solid var(--borda);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--texto);
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.tecla:hover:not(:disabled) { background: var(--roxo); transform: translateY(-3px); }
+.tecla:disabled { cursor: not-allowed; opacity: 0.55; }
+.tecla.certa { background: var(--verde); opacity: 1; }
+.tecla.errada { background: var(--vermelho); text-decoration: line-through; }
+
+.botoes-jogo { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.botoes-jogo button { padding: 10px 18px; }
+
+/* ----- janela de fim de partida ----- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.7);
+}
+.modal.aberto { display: flex; }
+.modal-caixa {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  padding: 28px 22px;
+  border-radius: 20px;
+  background: #1b1840;
+  border: 1px solid var(--borda);
+  animation: pop 0.4s;
+}
+.modal-caixa h2 { font-size: 1.8rem; margin-bottom: 10px; }
+.modal-caixa.ganhou h2 { color: var(--verde); }
+.modal-caixa.perdeu h2 { color: var(--vermelho); }
+.modal-palavra {
+  font-size: 1.6rem;
+  letter-spacing: 4px;
+  font-weight: bold;
+  color: var(--azul);
+  margin: 10px 0;
+}
+.modal-pontos { color: var(--texto-suave); margin-bottom: 18px; }
+.modal-botoes { display: flex; flex-direction: column; gap: 10px; }
+
+/* ----- telas menores ----- */
+@media (max-width: 760px) {
+  .area-jogo { grid-template-columns: 1fr; }
+  #forca { max-width: 180px; }
+  .placar { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 400px) {
+  .cartao { padding: 16px; }
+  .teclado { grid-template-columns: repeat(auto-fit, minmax(36px, 1fr)); gap: 5px; }
+}
+
+/* ----- regras do jogo ----- */
+.btn-regras { width: 100%; margin-top: 10px; }
+.regras-caixa { max-width: 520px; max-height: 88vh; overflow-y: auto; text-align: left; }
+.regras-caixa h2 { text-align: center; font-size: 1.5rem; }
+.regras-caixa ol { margin: 14px 0 20px 20px; line-height: 1.55; color: var(--texto-suave); }
+.regras-caixa li { margin-bottom: 8px; }
+.regras-caixa li strong { color: var(--texto); }
